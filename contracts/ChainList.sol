@@ -12,6 +12,7 @@ contract ChainList is Owned {
     string name;
     string description;
     uint256 price;
+    string currency;
   }
 
   // State variables
@@ -68,7 +69,7 @@ contract ChainList is Owned {
   }
 
   // sell an article
-  function sellArticle(string _name, string _description, uint256 _price) public {
+  function sellArticle(string _name, string _description, uint256 _price,string _currency) public {
 
     articleCounter++;
     articles[articleCounter] = Article(
@@ -77,7 +78,8 @@ contract ChainList is Owned {
       0x0,
       _name,
       _description,
-      _price
+      _price,
+      _currency
     );
     sellArticleEvent(articleCounter,msg.sender,_name,_price);
   }
@@ -103,7 +105,7 @@ contract ChainList is Owned {
     require(msg.sender != article.seller);
 
     //Check if the value that is sent is equal to the price of the article
-    require(msg.value == article.price);
+    //require(msg.value == article.price);
 
     //If all the above conditions are met the buyer can then buy the article
 

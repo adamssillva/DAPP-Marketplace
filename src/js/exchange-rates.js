@@ -47,21 +47,30 @@ function fetchExchangeRates(url) {
 }
 
 function populateExchangeRates(info) {
-  var percentage_change;
-  console.log(info.change < 0);
-  if(info.change < 0 ){
-    percentage_change = '<p class="ticker-percentage-change negative-change"> ' + info.change  + ' </p> ';
-  }
-  else{
-    percentage_change = '<p class="ticker-percentage-change positive-change"> ' + info.change  + ' </p> ';
-  }
-  console.log(percentage_change);
-  
+	var percentage_change;
+	if (info.change < 0) {
+		percentage_change =
+			'<p class="ticker-percentage-change negative-change"> ' +
+			info.change +
+			' </p> ';
+	} else {
+		percentage_change =
+			'<p class="ticker-percentage-change positive-change"> ' +
+			info.change +
+			' </p> ';
+	}
 	$('#ticker_container').append(
-  '<div class="ticker-item">'+
-    '<h4 class="ticker-name">'+ info.base +'/'+info.target + '</h4>' +
-      '<p class="ticker-price">'+ info.price + ' BTC '+ '</p>' +
-       percentage_change +
-    '</div>'
-  );
+		'<div class="ticker-item">' +
+			'<h4 class="ticker-name">' +
+			info.base +
+			'/' +
+			info.target +
+			'</h4>' +
+			'<p class="ticker-price">' +
+			info.price +
+			' BTC ' +
+			'</p>' +
+			percentage_change +
+			'</div>'
+	);
 }

@@ -62,7 +62,7 @@
         </div>
         <div class="panel-body">
           <strong>Description</strong>: <span class="article-description"></span><br/>
-          <strong>Price (ETH)</strong>: <span class="article-price"></span><br/>
+          <strong>Price</strong>: <span class="article-price"></span><br/>
           <strong>Sold by</strong>: <span class="article-seller"></span><br/>
         </div>
         <div class="panel-footer">
@@ -93,8 +93,18 @@
                   <label for="article_name">Article name</label>
                   <input type="text" class="form-control" id="article_name" placeholder="Enter the name of your article">
                 </div>
+                <div class="form-check form-check-inline for-group">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="currency_option" id="currency_option_eur" value="EUR" checked> EUR
+                  </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="currency_option" id="currency_option_usd" value="USD"> USD
+                  </label>
+                </div>
                 <div class="form-group">
-                  <label for="price">Price in ETH</label>
+                  <label for="price">Price</label>
                   <input type="number" class="form-control" id="article_price" placeholder="1" pattern="[0-9]+([\.,][0-9]+)?" step="0.01">
                 </div>
                 <div class="form-group">

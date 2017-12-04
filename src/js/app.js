@@ -87,7 +87,8 @@ App = {
 								article[1],
 								article[3],
 								article[4],
-								article[5]
+								article[5],
+								article[6]
 							);
 						});
 				}
@@ -99,7 +100,7 @@ App = {
 			});
 	},
 
-	displayArticle: function(id, seller, name, description, price) {
+	displayArticle: function(id, seller, name, description, price, currency) {
 		//Retrieve the article placeholder
 		var articlesRow = $('#articlesRow');
 		var etherPrice = web3.fromWei(price, 'ether');
@@ -108,9 +109,10 @@ App = {
 		var articleTemplate = $('#articleTemplate');
 		articleTemplate.find('.panel-title').text(name);
 		articleTemplate.find('.article-description').text(description);
-		articleTemplate.find('.article-price').text(etherPrice + ' ETH');
+		articleTemplate.find('.article-price').text(etherPrice + ' ' + currency);
 		articleTemplate.find('.btn-buy').attr('data-id', id);
 		articleTemplate.find('.btn-buy').attr('data-value', etherPrice);
+		articleTemplate.find('.btn-buy').attr('data-currency', currency);
 
 		//seller?
 		if (seller == App.account) {
@@ -133,7 +135,8 @@ App = {
 			parseFloat($('#article_price').val() || 0),
 			'ether'
 		);
-
+		var _currency = $('input[name=currency_option]:checked').val();
+		console.log(_currency);
 		if (_article_name.trim() == '' || _price == 0) {
 			// nothing to sell
 			return false;
@@ -142,10 +145,16 @@ App = {
 		App.contracts.ChainList
 			.deployed()
 			.then(function(instance) {
-				return instance.sellArticle(_article_name, _description, _price, {
-					from: App.account,
-					gas: 500000
-				});
+				return instance.sellArticle(
+					_article_name,
+					_description,
+					_price,
+					_currency,
+					{
+						from: App.account,
+						gas: 500000
+					}
+				);
 			})
 			.then(function(result) {})
 			.catch(function(err) {
@@ -208,20 +217,28 @@ App = {
 
 		var _articleId = $(event.target).data('id');
 		var _price = parseFloat($(event.target).data('value'));
+		var _currency = $(event.target)
+			.data('currency')
+			.toLowerCase();
 
-		App.contracts.ChainList
-			.deployed()
-			.then(function(instance) {
-				return instance.buyArticle(_articleId, {
-					from: App.account,
-					value: web3.toWei(_price, 'ether'),
-					gas: 500000
+		axios.get(URL + _currency + '-eth').then(function(response) {
+			var _ether_price = _price * response.data.ticker.price;
+			console.log(_ether_price);
+
+			App.contracts.ChainList
+				.deployed()
+				.then(function(instance) {
+					return instance.buyArticle(_articleId, {
+						from: App.account,
+						value: web3.toWei(_ether_price, 'ether'),
+						gas: 500000
+					});
+				})
+				.then(function(result) {})
+				.catch(function(err) {
+					console.log(err);
 				});
-			})
-			.then(function(result) {})
-			.catch(function(err) {
-				console.log(err);
-			});
+		});
 	},
 
 	loadExchangeRates: function() {
