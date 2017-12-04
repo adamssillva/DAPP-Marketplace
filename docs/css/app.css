@@ -16,3 +16,21 @@ body {
 	display: inline;
 	padding: 5px;
 }
+
+#ticker_container {
+	display: table;
+	width: 100%;
+}
+
+.ticker-item {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.negative-change {
+	color: #e74c3c;
+}
+
+.positive-change {
+	color: #2ecc71;
+}

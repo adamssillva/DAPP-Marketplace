@@ -5,6 +5,7 @@ App = {
 	loading: false,
 
 	init: function() {
+		App.loadExchangeRates();
 		return App.initWeb3();
 	},
 
@@ -221,6 +222,10 @@ App = {
 			.catch(function(err) {
 				console.log(err);
 			});
+	},
+
+	loadExchangeRates: function() {
+		getExchangeRates();
 	}
 };
 
